@@ -8,6 +8,11 @@ Captured in this backend C\# .NET app will be Admin/Critic login credentials, da
 
 ## Movie Data Captured
 
-title, synopsis, genre, rating (e.g., PG-13), runtime hours/minutes, and release date.
+- Title
+- Synopsis
+- Genre
+- Rating (G, NC-17)
+- Runtime hours/minutes
+- Release date
 
 At this stage the fundamentals of CRUD will be implemented for proper showcasing of data.
