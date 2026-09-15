@@ -1,5 +1,6 @@
 # Movie Administrator Web App
 
+## Purpose
 
 Captured in this backend C\# .NET app will be Admin/Critic login credentials, data for each movie object, and a place for critic's to leave their reviews.
 
