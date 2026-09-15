@@ -1,6 +1,5 @@
 # Movie Administrator Web App
 
-This backend web app will be primarily used for records management of movies.
 
 Captured in this backend C\# .NET app will be Admin/Critic login credentials, data for each movie object, and a place critic's to leave their reviews.
 
