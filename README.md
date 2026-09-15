@@ -3,7 +3,7 @@
 
 Captured in this backend C\# .NET app will be Admin/Critic login credentials, data for each movie object, and a place for critic's to leave their reviews.
 
-This app is function over form acting as a backend. Later on a public facing React app will be available for the consumers of this web app.
+This app is function over form acting as a backend for a public facing React app that will be available at a later date.
 
 ## Movie Data Captured
 
