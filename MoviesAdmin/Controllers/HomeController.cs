@@ -6,13 +6,19 @@ namespace MoviesAdmin.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController()
+        {
+            Console.WriteLine("Hello from the Contructor");
+        }
         public IActionResult Index()
         {
+            Console.WriteLine("Hello from the Home/Index controller");
             return View();
         }
 
         public IActionResult Privacy()
         {
+            Console.WriteLine("Hello from the Home/Privacy controller");
             return View();
         }
 
