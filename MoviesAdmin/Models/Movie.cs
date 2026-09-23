@@ -9,5 +9,6 @@
         public string Rating { get; set; } = string.Empty;
         public string RunTime { get; set; } = string.Empty;
         public string ReleaseDate { get; set; } = string.Empty;
+        public Boolean NowPlaying { get; set; } /*Added field to show nearby theatres playing this movie*/
     }
 }

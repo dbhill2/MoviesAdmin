@@ -1,0 +1,17 @@
+﻿@model List<MoviesAdmin.Models.Movie>
+
+@foreach(var movie in Model){
+<table class="table">
+    @foreach (var prop in movie.GetType().GetProperties())
+    {
+        if (prop.Name != "ID")
+        {
+            <tr>
+                <th>@prop.Name</th>
+                <td>@prop.GetValue(movie)</td>
+            </tr>
+        }
+        <hr/>
+    }
+</table>
+}
