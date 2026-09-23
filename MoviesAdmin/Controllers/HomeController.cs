@@ -9,6 +9,7 @@ namespace MoviesAdmin.Controllers
         public HomeController()
         {
             Console.WriteLine("Hello from the Contructor");
+            
         }
         public IActionResult Index()
         {

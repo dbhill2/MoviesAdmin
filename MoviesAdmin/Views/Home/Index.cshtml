@@ -6,20 +6,5 @@
     <h1 class="display-4">Web Admin/Critic Login</h1>
 </div>
 
-@{
-    var people = new List<Person>
-    {
-        new Person {ID=1, UserName="dbhill1", Email="dbhill1@gmail.com"},
-        new Person {ID=2, UserName="dbhill2", Email="dbhill2@gmail.com"},
-        new Person {ID=3, UserName="dbhill3", Email="dbhill3@gmail.com"},
-    };
-}
 
-
-@foreach (var item in people)
-{
-    <p>
-        Id @item.ID Username @item.UserName Email @item.Email
-    </p>
-}
 
