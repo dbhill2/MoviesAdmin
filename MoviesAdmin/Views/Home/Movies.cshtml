@@ -1,5 +1,7 @@
 ﻿@model List<MoviesAdmin.Models.Movie>
 
+<h1>Movie Details</h1>
+
 @foreach(var movie in Model){
 <table class="table">
     @foreach (var prop in movie.GetType().GetProperties())
@@ -11,7 +13,6 @@
                 <td>@prop.GetValue(movie)</td>
             </tr>
         }
-        <hr/>
     }
 </table>
 }

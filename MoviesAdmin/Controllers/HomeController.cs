@@ -13,7 +13,7 @@ namespace MoviesAdmin.Controllers
         public IActionResult Index()
         {
 
-            return View();
+            return View(new LoginCred());
         }
 
         public IActionResult Privacy()
