@@ -23,8 +23,13 @@ namespace MoviesAdmin.Models
 
         [Range(1, 51420)] //Longest movie ever made
         [Required]
+        [Display(Name = "Run Time", Prompt = "Between 1 - 51420 minutes")]
         public int RunTime { get; set; }
+
+        [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
+
+        [Display(Name = "Now Playing")]
         public Boolean NowPlaying { get; set; } //Added field to show nearby theatres playing this movie
     }
 }
