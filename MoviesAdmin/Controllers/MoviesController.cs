@@ -13,9 +13,23 @@ public class MoviesController : Controller
     }
 
     // GET: MOVIES
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index(int page = 1)
     {
-        return View(await _context.Movie.ToListAsync());
+        int pageSize = 3;//sets table limit for movies per page
+
+        var movies = await _context.Movie
+            .OrderByDescending(m => m.ReleaseDate)
+            .Skip((page - 1) * pageSize)//calcs how many rows to skip
+            .Take(pageSize)//displays the correct amount of movies at the correct starting point
+            .ToListAsync();//gets all movies in DB
+
+        int totalMovies = await _context.Movie.CountAsync();//stores the value of all movie DB entries
+        int totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);//Calculates how many needed pages
+
+        ViewBag.Page = page;
+        ViewBag.TotalPages = totalPages;//used for pagination in the view
+
+        return View(movies);//sends the paged movie list to the Razor view
     }
 
     // GET: MOVIES/Details/5

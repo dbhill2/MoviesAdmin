@@ -21,7 +21,7 @@
 
             <div class="mb-3">
                 <label asp-for="Synopsis" class="form-label"></label>
-                <textarea asp-for="Synopsis" class="form-control" rows="4" style="resize: none;" placeholder="Write a short description of the movie..."></textarea>
+                <textarea asp-for="Synopsis" class="form-control" rows="4" style="resize: none;"></textarea>
                 <span asp-validation-for="Synopsis" class="text-danger"></span>
             </div>
 
@@ -33,7 +33,7 @@
 
             <div class="mb-3">
                 <label asp-for="Rating" class="form-label"></label>
-                <input asp-for="Rating" class="form-control" placeholder="ex G,PG,PG-13,..."/>
+                <input asp-for="Rating" class="form-control"/>
                 <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
 
@@ -45,7 +45,7 @@
 
             <div class="mb-3">
                 <label asp-for="ReleaseDate" class="form-label"></label>
-                <input asp-for="ReleaseDate" class="form-control" />
+                <input asp-for="ReleaseDate" class="form-control" type="date"/>
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
             </div>
 

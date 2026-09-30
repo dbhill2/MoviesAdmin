@@ -7,18 +7,23 @@ namespace MoviesAdmin.Models
         public int ID { get; set; }
 
         [StringLength(50, MinimumLength = 1)]
-        [Required(ErrorMessage = "Title must be between 1-50")]
+        [Required]
+        [Display(Prompt = "Movie Title")]
         public string Title { get; set; } = string.Empty;
 
         [StringLength(500, MinimumLength = 1)]
         [Required]
+        [Display(Prompt = "Write a short description of the movie...")]
         public string Synopsis { get; set; } = string.Empty;
 
         [StringLength(50, MinimumLength = 1)]
+        [Required]
+        [Display(Prompt = "Ex: Horror, Action, Adventure,...")]
         public string Genre { get; set; } = string.Empty;
 
         [StringLength(5, MinimumLength = 1)]
         [Required]
+        [Display(Prompt = "Ex: G,PG,PG-13,...")]
         public string Rating { get; set; } = string.Empty;
 
         [Range(1, 51420)] //Longest movie ever made
@@ -27,7 +32,7 @@ namespace MoviesAdmin.Models
         public int RunTime { get; set; }
 
         [Display(Name = "Release Date")]
-        public DateTime ReleaseDate { get; set; }
+        public DateOnly ReleaseDate { get; set; }
 
         [Display(Name = "Now Playing")]
         public Boolean NowPlaying { get; set; } //Added field to show nearby theatres playing this movie
