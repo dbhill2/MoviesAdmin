@@ -1,31 +1,137 @@
+:root {
+    --crimson: #9b111e;
+    --crimson-dark: #7a0d17;
+    --crimson-darker: #5e0a12;
+    --silver: #c0c0c0;
+    --gold: #d4af37;
+    --ink: #111;
+}
+
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+h1 {
+    font-family: 'Limelight', cursive;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    border-color: #d4af37;
+    border-bottom: 3px solid var(--gold) !important;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.nav-link{
+    color: white;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Gold focus ring */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
+.form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem var(--gold);
+}
+
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+/* Navbar: crimson with a gold underline */
+.navbar {
+    --bs-navbar-color: var(--silver);
+    --bs-navbar-hover-color: #fff;
+    --bs-navbar-active-color: var(--gold);
+    --bs-navbar-brand-color: var(--silver);
+    --bs-navbar-brand-hover-color: #fff;
+    background: linear-gradient(180deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+    border-bottom: 3px solid var(--gold) !important;
+}
+
+.silver-border {
+    border: 2px solid var(--gold);
+    font-family: 'Limelight', cursive;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    color: var(--ink);
+    background: linear-gradient(180deg, #ffffff 0%, #c0c0c0 50%, #8a8a8a 100%);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+}
+
+/* Primary: crimson */
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--crimson);
+    --bs-btn-border-color: var(--crimson);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--crimson-dark);
+    --bs-btn-hover-border-color: var(--gold);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--crimson-darker);
+    --bs-btn-active-border-color: var(--gold);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--crimson);
+    --bs-btn-disabled-border-color: var(--crimson);
+}
+
+/* Secondary: silver */
+.btn-secondary {
+    --bs-btn-color: var(--ink);
+    --bs-btn-bg: var(--silver);
+    --bs-btn-border-color: var(--silver);
+    --bs-btn-hover-color: var(--ink);
+    --bs-btn-hover-bg: #d9d9d9;
+    --bs-btn-hover-border-color: var(--gold);
+    --bs-btn-active-color: var(--ink);
+    --bs-btn-active-bg: #a8a8a8;
+    --bs-btn-active-border-color: var(--gold);
+    --bs-btn-disabled-color: var(--ink);
+    --bs-btn-disabled-bg: var(--silver);
+    --bs-btn-disabled-border-color: var(--silver);
+}
+
+/* Pagination: crimson, with gold marking the current page */
+.pagination {
+    --bs-pagination-color: var(--crimson);
+    --bs-pagination-bg: #fff;
+    --bs-pagination-border-color: var(--silver);
+    --bs-pagination-hover-color: #fff;
+    --bs-pagination-hover-bg: var(--crimson-dark);
+    --bs-pagination-hover-border-color: var(--crimson-dark);
+    --bs-pagination-focus-color: var(--crimson);
+    --bs-pagination-focus-bg: #f3e6e8;
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.5);
+    --bs-pagination-active-color: #fff;
+    --bs-pagination-active-bg: var(--crimson);
+    --bs-pagination-active-border-color: var(--crimson);
+    --bs-pagination-disabled-color: #8a8a8a;
+    --bs-pagination-disabled-bg: #ececec;
+}
+
+.form-check-input:checked {
+    background-color: var(--crimson);
+    border-color: var(--crimson);
+    --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23d4af37' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+.form-check-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.4);
 }
