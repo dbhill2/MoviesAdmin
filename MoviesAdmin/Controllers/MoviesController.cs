@@ -2,14 +2,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAdmin.Models;
+using MoviesAdmin.Services;
 
 public class MoviesController : Controller
 {
     private readonly MoviesAdminContext _context;
 
-    public MoviesController(MoviesAdminContext context)
+    private readonly AzureStorageService _blobService;
+
+    public MoviesController(MoviesAdminContext context, AzureStorageService blobService)
     {
         _context = context;
+        _blobService = blobService;
     }
 
     // GET: MOVIES
@@ -61,12 +65,22 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,Synopsis,Genre,Rating,RunTime,ReleaseDate,NowPlaying")] Movie movie)
+    public async Task<IActionResult> Create([Bind("ID,Title,Synopsis,Genre,Rating,RunTime,ReleaseDate,NowPlaying")] Movie movie, IFormFile ImageFile)
     {
+        if (ImageFile == null || ImageFile.Length == 0)
+        {
+            ModelState.AddModelError("ImageFile", "Please select an image.");
+        }
+
         if (ModelState.IsValid)
         {
+            //save record in db
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(ImageFile.FileName)}";
+            string imageUrl = await _blobService.UploadFileAsync(ImageFile, fileName);
+            movie.ImageUrl = imageUrl;
             _context.Add(movie);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
         return View(movie);
@@ -93,19 +107,43 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,Synopsis,Genre,Rating,RunTime,ReleaseDate,NowPlaying")] Movie movie)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,Synopsis,Genre,Rating,RunTime,ReleaseDate,NowPlaying")] Movie movie, IFormFile? ImageFile)
     {
         if (id != movie.ID)
         {
             return NotFound();
         }
 
+        var existingMovie = await _context.Movie.FindAsync(id);
+
+        if (existingMovie == null) { 
+            return NotFound();
+        }
+
+        existingMovie.Title = movie.Title;
+        existingMovie.Synopsis = movie.Synopsis;
+        existingMovie.Genre = movie.Genre;
+        existingMovie.Rating = movie.Rating;
+        existingMovie.RunTime = movie.RunTime;
+        existingMovie.ReleaseDate = movie.ReleaseDate;
+        existingMovie.NowPlaying = movie.NowPlaying;
+
         if (ModelState.IsValid)
         {
             try
             {
-                _context.Update(movie);
+                if (ImageFile != null && ImageFile.Length > 0)
+                {
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(ImageFile.FileName)}";
+
+                    string imageUrl =
+                        await _blobService.UploadFileAsync(ImageFile, fileName);
+
+                    existingMovie.ImageUrl = imageUrl;
+                }
+                
                 await _context.SaveChangesAsync();
+
             }
             catch (DbUpdateConcurrencyException)
             {

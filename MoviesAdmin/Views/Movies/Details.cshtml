@@ -7,68 +7,69 @@
 <h1>Details</h1>
 
 <div>
-    <hr />
-    <table class="table table-hover table-light table-striped-columns">
-        <tbody class="table-group-divider">
-            <tr>
-                <th class="w-25">
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.Title)
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Synopsis)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.Synopsis)
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Genre)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.Genre)
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Rating)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.Rating)
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.RunTime)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.RunTime)
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ReleaseDate)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.ReleaseDate)
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.NowPlaying)
-                </th>
-                <td>
-                    @Html.DisplayFor(model => model.NowPlaying)
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <img src="@Model.ImageUrl"
+             alt="@Model.Title Poster"
+             class="img-fluid rounded shadow" />
+    </div>
+
+    <div class="col-md-9">
+        <table class="table table-light table-striped-columns">
+            <tbody>
+                <tr>
+                    <th class="w-25">@Html.DisplayNameFor(m => m.Title)</th>
+                    <td>@Html.DisplayFor(m => m.Title)</td>
+                </tr>
+
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Synopsis)</th>
+                    <td>
+                        <textarea class="form-control"
+                            rows="10"
+                            readonly
+                            style="resize:none; background-color:whitesmoke; overflow-y:auto;">
+                            @Model.Synopsis
+                        </textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Genre)</th>
+                    <td>@Html.DisplayFor(m => m.Genre)</td>
+                </tr>
+
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Rating)</th>
+                    <td>@Html.DisplayFor(m => m.Rating)</td>
+                </tr>
+
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.RunTime)</th>
+                    <td>@Html.DisplayFor(m => m.RunTime)</td>
+                </tr>
+
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.ReleaseDate)</th>
+                    <td>@Html.DisplayFor(m => m.ReleaseDate)</td>
+                </tr>
+
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.NowPlaying)</th>
+                    <td>@Html.DisplayFor(m => m.NowPlaying)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br />
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-primary">Edit</a> |
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>

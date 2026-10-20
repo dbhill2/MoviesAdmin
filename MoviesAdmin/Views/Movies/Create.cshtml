@@ -6,11 +6,15 @@
 
 <h1 class="create">Create</h1>
 
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+
+            <hr />
 
             <div class="mb-3">
                 <label asp-for="Title" class="form-label"></label>
@@ -53,6 +57,14 @@
                 <input asp-for="NowPlaying" class="form-check-input" />
                 <span asp-validation-for="NowPlaying" class="text-danger"></span>
             </div>
+            <div class="mb-3">
+                <label for="ImageFile" class="form-label">Image Upload</label>
+                <input type="file" id="ImageFile" name="ImageFile" class="form-control"/> 
+                @Html.ValidationMessage("ImageFile", new {@class = "text-danger"})
+            </div>
+
+            <hr/>
+
             <div class="mb-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

@@ -34,6 +34,10 @@ namespace MoviesAdmin.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("NowPlaying")
                         .HasColumnType("bit");
 

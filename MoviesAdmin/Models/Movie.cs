@@ -32,9 +32,11 @@ namespace MoviesAdmin.Models
         public int RunTime { get; set; }
 
         [Display(Name = "Release Date")]
+        [Required]
         public DateOnly ReleaseDate { get; set; }
-
+        [Display(Name = "Poster")]
+        public string ImageUrl { get; set; } = string.Empty;
         [Display(Name = "Now Playing")]
-        public Boolean NowPlaying { get; set; } //Added field to show nearby theatres playing this movie
+        public bool NowPlaying { get; set; } //Added field to show nearby theatres playing this movie
     }
 }

@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
@@ -28,13 +31,17 @@
     @foreach (var item in Model) {
             <tr>
                 <td>
+                    <img src="@item.ImageUrl" alt="@item.Title Poster" style="max-width:150px;"/>
+                </td>
+                <td>
                     @Html.DisplayFor(model => item.Title)
                 </td>
+
                 <td>
                     @Html.DisplayFor(model => item.ReleaseDate)
                 </td>
-                <td>
-                    @Html.DisplayFor(model => item.Synopsis)
+                <td style="white-space: pre-line;">
+                    @item.Synopsis?.Trim()
                 </td>
                 <td>
                     <div class="d-flex flex-column gap-2">
