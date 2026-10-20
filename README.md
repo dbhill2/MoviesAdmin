@@ -1,5 +1,7 @@
 # Movie Administrator Web App
 
+## Under Contruction
+
 ## Purpose
 
 This app is function over form acting as a backend for a public facing React app that will be available at a later date.
@@ -18,5 +20,10 @@ Captured in this backend `c#` .NET app will be Admin/Critic login credentials, d
 - Rating (G - NC-17)
 - Runtime hours/minutes
 - Release date
+- Now playing
 
 At this stage the fundamentals of CRUD will be implemented for proper showcasing of data.
+
+## Styling and Branding
+
+The placeholder name of "Silver Screen Marquee" is being used with a "Hollywood" colour palette (Silver, Crimson, Gold).
