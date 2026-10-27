@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MoviesAdmin.Models;
 using MoviesAdmin.Services;
@@ -22,6 +23,7 @@ public class MoviesController : Controller
         int pageSize = 3;//sets table limit for movies per page
 
         var movies = await _context.Movie
+            .Include(m => m.Genre)
             .OrderByDescending(m => m.ReleaseDate)
             .Skip((page - 1) * pageSize)//calcs how many rows to skip
             .Take(pageSize)//displays the correct amount of movies at the correct starting point
@@ -45,6 +47,7 @@ public class MoviesController : Controller
         }
 
         var movie = await _context.Movie
+            .Include(m => m.Genre)
             .FirstOrDefaultAsync(m => m.ID == id);
         if (movie == null)
         {
@@ -57,6 +60,8 @@ public class MoviesController : Controller
     // GET: MOVIES/Create
     public IActionResult Create()
     {
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreID = new SelectList(genres, "ID", "Title");
         return View();
     }
 
@@ -65,7 +70,9 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,Synopsis,Genre,Rating,RunTime,ReleaseDate,NowPlaying")] Movie movie, IFormFile ImageFile)
+    public async Task<IActionResult> Create(
+    [Bind("ID,GenreID,AudienceRatingID,CriticReviewID,Title,Synopsis,RunTime,ReleaseDate,NowPlaying")] Movie movie,
+    IFormFile ImageFile)
     {
         if (ImageFile == null || ImageFile.Length == 0)
         {
@@ -107,7 +114,7 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,Synopsis,Genre,Rating,RunTime,ReleaseDate,NowPlaying")] Movie movie, IFormFile? ImageFile)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,GenreID,AudienceRatingID,CriticReviewID,Title,Synopsis,RunTime,ReleaseDate,NowPlaying")] Movie movie, IFormFile? ImageFile)
     {
         if (id != movie.ID)
         {
@@ -123,7 +130,7 @@ public class MoviesController : Controller
         existingMovie.Title = movie.Title;
         existingMovie.Synopsis = movie.Synopsis;
         existingMovie.Genre = movie.Genre;
-        existingMovie.Rating = movie.Rating;
+        existingMovie.AudienceRating = movie.AudienceRating;
         existingMovie.RunTime = movie.RunTime;
         existingMovie.ReleaseDate = movie.ReleaseDate;
         existingMovie.NowPlaying = movie.NowPlaying;

@@ -33,20 +33,13 @@
                         <textarea class="form-control"
                             rows="10"
                             readonly
-                            style="resize:none; background-color:whitesmoke; overflow-y:auto;">
-                            @Model.Synopsis
-                        </textarea>
+                            style="resize:none; background-color:whitesmoke; overflow-y:auto;">@Model.Synopsis</textarea>
                     </td>
                 </tr>
 
                 <tr>
                     <th>@Html.DisplayNameFor(m => m.Genre)</th>
                     <td>@Html.DisplayFor(m => m.Genre)</td>
-                </tr>
-
-                <tr>
-                    <th>@Html.DisplayNameFor(m => m.Rating)</th>
-                    <td>@Html.DisplayFor(m => m.Rating)</td>
                 </tr>
 
                 <tr>

@@ -40,9 +40,7 @@
                 <td>
                     @Html.DisplayFor(model => item.ReleaseDate)
                 </td>
-                <td style="white-space: pre-line;">
-                    @item.Synopsis?.Trim()
-                </td>
+                <td style="white-space: pre-line;">@item.Synopsis?.Trim()</td>
                 <td>
                     <div class="d-flex flex-column gap-2">
                         <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary">Edit</a>

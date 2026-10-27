@@ -1,20 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace MoviesAdmin.Models
 {
     public class CriticReview
     {
-        int ID { get; set; }
+        public int ID { get; set; }
+
+        //nav property
+        [ValidateNever]
+        public List<Movie> Movie { get; set; } = new List<Movie>();
+
+
         [Required]
-        string Description { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+
         [Required]
-        [Range(1,5)]
-        int Rating { get; set; }
-        Boolean IsPublished { get; set; }
+        [Range(0,5)]
+        public float Rating { get; set; }
+
+        public bool IsPublished { get; set; }
         [Required]
-        string CreatedBy { get; set; } = string.Empty;
+        public string CreatedBy { get; set; } = string.Empty;
         [Required]
-        DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         //TODO compare feature against other reviews/movies
     }
