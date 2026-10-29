@@ -60,10 +60,15 @@ namespace MoviesAdmin.Migrations
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
 
+                    b.Property<int>("MovieID")
+                        .HasColumnType("int");
+
                     b.Property<float>("Rating")
                         .HasColumnType("real");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("MovieID");
 
                     b.ToTable("CriticReview");
                 });
@@ -96,9 +101,6 @@ namespace MoviesAdmin.Migrations
                     b.Property<int>("AudienceRatingID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CriticReviewID")
-                        .HasColumnType("int");
-
                     b.Property<int>("GenreID")
                         .HasColumnType("int");
 
@@ -129,11 +131,20 @@ namespace MoviesAdmin.Migrations
 
                     b.HasIndex("AudienceRatingID");
 
-                    b.HasIndex("CriticReviewID");
-
                     b.HasIndex("GenreID");
 
                     b.ToTable("Movie");
+                });
+
+            modelBuilder.Entity("MoviesAdmin.Models.CriticReview", b =>
+                {
+                    b.HasOne("MoviesAdmin.Models.Movie", "Movie")
+                        .WithMany("CriticReviews")
+                        .HasForeignKey("MovieID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("MoviesAdmin.Models.Movie", b =>
@@ -141,12 +152,6 @@ namespace MoviesAdmin.Migrations
                     b.HasOne("MoviesAdmin.Models.AudienceRating", "AudienceRating")
                         .WithMany("Movie")
                         .HasForeignKey("AudienceRatingID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MoviesAdmin.Models.CriticReview", "CriticReview")
-                        .WithMany("Movie")
-                        .HasForeignKey("CriticReviewID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -158,8 +163,6 @@ namespace MoviesAdmin.Migrations
 
                     b.Navigation("AudienceRating");
 
-                    b.Navigation("CriticReview");
-
                     b.Navigation("Genre");
                 });
 
@@ -168,14 +171,14 @@ namespace MoviesAdmin.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("MoviesAdmin.Models.CriticReview", b =>
+            modelBuilder.Entity("MoviesAdmin.Models.Genre", b =>
                 {
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("MoviesAdmin.Models.Genre", b =>
+            modelBuilder.Entity("MoviesAdmin.Models.Movie", b =>
                 {
-                    b.Navigation("Movie");
+                    b.Navigation("CriticReviews");
                 });
 #pragma warning restore 612, 618
         }

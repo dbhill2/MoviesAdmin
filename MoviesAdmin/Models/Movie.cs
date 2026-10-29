@@ -12,8 +12,6 @@ namespace MoviesAdmin.Models
 
         public int AudienceRatingID { get; set; }//FK
 
-        public int CriticReviewID { get; set; }//FK
-
         //Nav Properties
         [ValidateNever]
         public Genre Genre { get; set; } = null!;
@@ -22,7 +20,7 @@ namespace MoviesAdmin.Models
         public AudienceRating AudienceRating { get; set; } = null!;
 
         [ValidateNever]
-        public CriticReview CriticReview { get; set; } = null!;
+        public List<CriticReview> CriticReviews { get; set; } = new();
 
         //Movie Fields
         [StringLength(50, MinimumLength = 1)]

@@ -1,10 +1,8 @@
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAdmin.Models;
 
-[Authorize]
 public class CriticReviewsController : Controller
 {
     private readonly MoviesAdminContext _context;
@@ -49,7 +47,7 @@ public class CriticReviewsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Movie,Description,Rating,IsPublished,CreatedBy,CreatedDate")] CriticReview criticreview)
+    public async Task<IActionResult> Create([Bind("ID,MovieID,Movie,Description,Rating,IsPublished,CreatedBy,CreatedDate")] CriticReview criticreview)
     {
         if (ModelState.IsValid)
         {
@@ -81,7 +79,7 @@ public class CriticReviewsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Movie,Description,Rating,IsPublished,CreatedBy,CreatedDate")] CriticReview criticreview)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,MovieID,Movie,Description,Rating,IsPublished,CreatedBy,CreatedDate")] CriticReview criticreview)
     {
         if (id != criticreview.ID)
         {
