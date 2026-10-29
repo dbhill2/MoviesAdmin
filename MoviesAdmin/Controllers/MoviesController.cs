@@ -1,10 +1,13 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MoviesAdmin;
 using MoviesAdmin.Models;
 using MoviesAdmin.Services;
 
+[Authorize]
 public class MoviesController : Controller
 {
     private readonly MoviesAdminContext _context;
@@ -20,6 +23,14 @@ public class MoviesController : Controller
     // GET: MOVIES
     public async Task<IActionResult> Index(int page = 1)
     {
+
+        // Log the currently logged in user
+        var user = User.GetUserId();
+        if (user != null)
+        {
+            Console.WriteLine("Logged in user: " + user);
+        }
+
         int pageSize = 3;//sets table limit for movies per page
 
         var movies = await _context.Movie
@@ -62,6 +73,10 @@ public class MoviesController : Controller
     {
         var genres = _context.Genre.ToList();
         ViewBag.GenreID = new SelectList(genres, "ID", "Title");
+        var audienceRatings = _context.AudienceRating.ToList();
+        ViewBag.AudienceRatingID = new SelectList(audienceRatings, "ID", "Title");
+        var criticReviews = _context.CriticReview.ToList();
+        ViewBag.CriticReviewID = new SelectList(criticReviews, "ID", "Description");
         return View();
     }
 

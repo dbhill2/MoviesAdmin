@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAdmin.Models;
@@ -5,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoviesAdmin.Controllers
 {
+    [Authorize]
     public class AudienceRatingsController : Controller
     {
         private readonly MoviesAdminContext _context;
