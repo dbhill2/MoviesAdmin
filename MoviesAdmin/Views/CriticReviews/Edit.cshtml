@@ -13,42 +13,27 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
-            <div class="form-group">
-                <label asp-for="MovieID" class="control-label"></label>
-                <input asp-for="MovieID" class="form-control" />
-                <span asp-validation-for="MovieID" class="text-danger"></span>
+            <div class="mb-3">
+                <label class="form-label">Movie</label>
+                <input class="form-control" value="@Model.Movie.Title" disabled />
             </div>
-            <div class="form-group">
-                <label asp-for="Movie" class="control-label"></label>
-                <input asp-for="Movie" class="form-control" />
-                <span asp-validation-for="Movie" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control" rows="4" style="resize: none;"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <label asp-for="Rating" class="control-label"></label>
                 <input asp-for="Rating" class="form-control" />
                 <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <label asp-for="IsPublished" class="control-label"></label>
                 <input asp-for="IsPublished" class="form-check-input" />
                 <span asp-validation-for="IsPublished" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <hr/>
+            <div class="mb-3">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -56,7 +41,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
 @section Scripts {

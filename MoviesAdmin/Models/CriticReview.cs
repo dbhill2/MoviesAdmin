@@ -12,24 +12,28 @@ namespace MoviesAdmin.Models
 
         //nav property
         [ValidateNever]
+        [ScaffoldColumn(false)]
+        [Range(1, int.MaxValue)]
         public Movie Movie { get; set; } = null!;
 
+        [StringLength(1000, MinimumLength = 1)]
         [Required]
+        [Display(Name = "Review", Prompt = "1-1000 characters")]
         public string Description { get; set; } = string.Empty;
 
         [Required]
         [Range(0, 5)]
+        [Display(Name = "Star Rating", Prompt = "0 - 5")]
         public float Rating { get; set; }
 
-
+        [Display(Prompt = "Published")]
         public bool IsPublished { get; set; }
 
-        [Required]
+        [ValidateNever]
+        [Display(Prompt ="Created By")]
         public string CreatedBy { get; set; } = string.Empty;
 
-        [ScaffoldColumn(false)]
+        [Display(Prompt = "Created Date")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-
-        //TODO compare feature against other reviews/movies
     }
 }

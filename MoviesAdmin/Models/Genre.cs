@@ -11,6 +11,7 @@ namespace MoviesAdmin.Models
         [ValidateNever]
         public List<Movie> Movie { get; set; } = new List<Movie>();
 
+        [Display(Prompt = "Genre")]
         public string Title { get; set; } = string.Empty;
     }
 }

@@ -6,7 +6,7 @@ using MoviesAdmin.Models;
 
 namespace MoviesAdmin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class GenresController : Controller
     {
         private readonly MoviesAdminContext _context;

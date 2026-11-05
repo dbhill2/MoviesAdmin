@@ -35,7 +35,7 @@ namespace MoviesAdmin.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("AudienceRating");
+                    b.ToTable("AudienceRating", (string)null);
                 });
 
             modelBuilder.Entity("MoviesAdmin.Models.CriticReview", b =>
@@ -70,7 +70,7 @@ namespace MoviesAdmin.Migrations
 
                     b.HasIndex("MovieID");
 
-                    b.ToTable("CriticReview");
+                    b.ToTable("CriticReview", (string)null);
                 });
 
             modelBuilder.Entity("MoviesAdmin.Models.Genre", b =>
@@ -87,7 +87,7 @@ namespace MoviesAdmin.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Genre");
+                    b.ToTable("Genre", (string)null);
                 });
 
             modelBuilder.Entity("MoviesAdmin.Models.Movie", b =>
@@ -133,7 +133,7 @@ namespace MoviesAdmin.Migrations
 
                     b.HasIndex("GenreID");
 
-                    b.ToTable("Movie");
+                    b.ToTable("Movie", (string)null);
                 });
 
             modelBuilder.Entity("MoviesAdmin.Models.CriticReview", b =>

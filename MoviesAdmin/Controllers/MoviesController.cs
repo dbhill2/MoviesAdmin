@@ -35,6 +35,8 @@ public class MoviesController : Controller
 
         var movies = await _context.Movie
             .Include(m => m.Genre)
+            .Include(m => m.AudienceRating)
+            .Include(m => m.CriticReview)
             .OrderByDescending(m => m.ReleaseDate)
             .Skip((page - 1) * pageSize)//calcs how many rows to skip
             .Take(pageSize)//displays the correct amount of movies at the correct starting point
@@ -59,6 +61,8 @@ public class MoviesController : Controller
 
         var movie = await _context.Movie
             .Include(m => m.Genre)
+            .Include(m => m.AudienceRating)
+            .Include(m => m.CriticReview)
             .FirstOrDefaultAsync(m => m.ID == id);
         if (movie == null)
         {
@@ -75,8 +79,6 @@ public class MoviesController : Controller
         ViewBag.GenreID = new SelectList(genres, "ID", "Title");
         var audienceRatings = _context.AudienceRating.ToList();
         ViewBag.AudienceRatingID = new SelectList(audienceRatings, "ID", "Title");
-        var criticReviews = _context.CriticReview.ToList();
-        ViewBag.CriticReviewID = new SelectList(criticReviews, "ID", "Description");
         return View();
     }
 
@@ -115,7 +117,10 @@ public class MoviesController : Controller
         {
             return NotFound();
         }
-
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreID = new SelectList(genres, "ID", "Title");
+        var audienceRatings = _context.AudienceRating.ToList();
+        ViewBag.AudienceRatingID = new SelectList(audienceRatings, "ID", "Title");
         var movie = await _context.Movie.FindAsync(id);
         if (movie == null)
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoviesAdmin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AudienceRatingsController : Controller
     {
         private readonly MoviesAdminContext _context;

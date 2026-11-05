@@ -14,13 +14,16 @@ namespace MoviesAdmin.Models
 
         //Nav Properties
         [ValidateNever]
+        [Display(Prompt = "Genre")]
         public Genre Genre { get; set; } = null!;
 
         [ValidateNever]
+        [Display(Name = "Audience Rating")]
         public AudienceRating AudienceRating { get; set; } = null!;
 
         [ValidateNever]
-        public List<CriticReview> CriticReviews { get; set; } = new();
+        [Display(Name = "Critic Review(s)")]
+        public List<CriticReview> CriticReview { get; set; } = new();
 
         //Movie Fields
         [StringLength(50, MinimumLength = 1)]

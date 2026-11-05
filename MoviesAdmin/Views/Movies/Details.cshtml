@@ -39,7 +39,40 @@
 
                 <tr>
                     <th>@Html.DisplayNameFor(m => m.Genre)</th>
-                    <td>@Html.DisplayFor(m => m.Genre)</td>
+                    <td>@Html.DisplayFor(m => m.Genre.Title)</td>
+                </tr>
+
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.AudienceRating)</th>
+                    <td>@Html.DisplayFor(m => m.AudienceRating.Title)</td>
+                </tr>
+
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.CriticReview)</th>
+                    <td>
+                        @Model.CriticReview.Count(r => r.IsPublished)
+                        
+                        @*Code to show the reviews with created date and author.     
+                        @if (Model.CriticReview.Any())
+                        {
+                            foreach (var review in Model.CriticReview.Where(r => r.IsPublished))
+                            {
+                                <div class="mb-3">
+                                    <div>
+                                        <strong>@review.Rating / 5</strong>
+                                        <small class="text-muted">
+                                            by @review.CreatedBy on @review.CreatedDate.ToShortDateString()
+                                        </small>
+                                    </div>
+                                    <p class="mb-0">@review.Description</p>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <em>No critic reviews yet.</em>
+                        } *@
+                    </td>
                 </tr>
 
                 <tr>
@@ -64,6 +97,12 @@
 <br />
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-primary">Edit</a> |
+    @if (User.IsInRole("admin")){
+        <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-primary">Edit</a>
+    }
+    @if (User.IsInRole("critic"))
+    {
+        <a asp-controller="CriticReviews" asp-action="Create" asp-route-movieId="" class="btn btn-primary">Create Review</a>
+    }
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
