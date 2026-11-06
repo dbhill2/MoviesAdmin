@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoviesAdmin.Models;
 using System.Diagnostics;
@@ -10,11 +11,13 @@ namespace MoviesAdmin.Controllers
         {
         
         }
+
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View(new LoginCred());
         }
-
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

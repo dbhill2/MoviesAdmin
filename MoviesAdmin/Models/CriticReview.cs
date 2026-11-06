@@ -8,12 +8,12 @@ namespace MoviesAdmin.Models
         //KEYS
         public int ID { get; set; }//PK
 
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a movie")]
         public int MovieID { get; set; }//FK
 
         //nav property
         [ValidateNever]
-        [ScaffoldColumn(false)]
-        [Range(1, int.MaxValue)]
+        [ScaffoldColumn(false)]        
         public Movie Movie { get; set; } = null!;
 
         [StringLength(1000, MinimumLength = 1)]

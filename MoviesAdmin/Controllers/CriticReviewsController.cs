@@ -16,12 +16,16 @@ namespace MoviesAdmin.Controllers
 
         private readonly MoviesAdminContext _context;
 
-        private string? _userId;
+        private string _userId = string.Empty;
 
-        private bool CanModify(CriticReview review)
+        private bool IsOwner(CriticReview r) => r.CreatedBy == _userId; //helper to match owner of review to current user used in CanModify checker
+
+        private bool CanModify(CriticReview review)//checks role/if the user owns the review or if the review is published
         {
-            return User.IsInRole("admin") || !review.IsPublished;
+            return User.IsInRole("admin") || (IsOwner(review) && !review.IsPublished);
         }
+
+        private bool CanView(CriticReview r) => User.IsInRole("admin") || IsOwner(r);//checks the role and owner only
 
         public CriticReviewsController(MoviesAdminContext context)
         {
@@ -34,31 +38,19 @@ namespace MoviesAdmin.Controllers
 
             base.OnActionExecuting(context);
 
-            var _userId = User.GetUserId();
-            if (_userId != null)
-            {
-                Console.WriteLine("Logged in user: " + _userId);
-            }
+            _userId = User.GetUserId();
+            Console.WriteLine("Logged in user: " + _userId);
         }
 
         // GET: CRITICREVIEWS
         public async Task<IActionResult> Index()
         {
-            var user = User.GetUserId();
+            var query = _context.CriticReview.Include(r => r.Movie).AsQueryable();
 
-            var criticReviews = await _context.CriticReview
-                .Include(m => m.Movie)
-                .ToListAsync();
+            if (!User.IsInRole("admin"))
+                query = query.Where(r => r.CreatedBy == _userId);
 
-            if (User.IsInRole("critic"))
-            {
-                criticReviews = await _context.CriticReview
-                .Where(m => m.CreatedBy == user)
-                .Include(m => m.Movie)
-                .ToListAsync();
-            }
-
-            return View(criticReviews);
+            return View(await query.OrderByDescending(r => r.CreatedDate).ToListAsync());
         }
 
         // GET: CRITICREVIEWS/Details/5
@@ -70,8 +62,9 @@ namespace MoviesAdmin.Controllers
             }
 
             var criticreview = await _context.CriticReview
+                .Include(m => m.Movie)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (criticreview == null)
+            if (criticreview == null || !CanView(criticreview))
             {
                 return NotFound();
             }
@@ -80,11 +73,11 @@ namespace MoviesAdmin.Controllers
         }
 
         // GET: CRITICREVIEWS/Create
-        public IActionResult Create()
+        public IActionResult Create(int? movieId)//used to get the movie Id for a critic to review from details page
         {
             var movies = _context.Movie.ToList();
-            ViewBag.MovieID = new SelectList(movies, "ID", "Title");
-            return View();
+            ViewBag.MovieID = new SelectList(movies, "ID", "Title", movieId);
+            return View(new CriticReview { MovieID = movieId ?? 0 });
         }
 
         // POST: CRITICREVIEWS/Create
@@ -94,20 +87,14 @@ namespace MoviesAdmin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,MovieID,Description,Rating,IsPublished,CreatedBy,CreatedDate")] CriticReview criticreview)
         {
-            var user = User.GetUserId();
-            criticreview.CreatedBy = user;
+            criticreview.CreatedBy = _userId;
 
             bool duplicate = await _context.CriticReview
-                .AnyAsync(r => r.MovieID == criticreview.MovieID && r.CreatedBy == user);
+                .AnyAsync(r => r.MovieID == criticreview.MovieID && r.CreatedBy == _userId);
 
             if (duplicate)
             {
                 ModelState.AddModelError(nameof(criticreview.MovieID), "You've already reviewed this movie.");
-            }
-
-            if (user != null)
-            {
-                Console.WriteLine("Logged in user: " + _userId);
             }
 
             if (ModelState.IsValid)
@@ -157,6 +144,11 @@ namespace MoviesAdmin.Controllers
             .Include(r => r.Movie)
             .FirstOrDefaultAsync(r => r.ID == id);
 
+            if (existing == null || !CanModify(existing))
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 existing.Description = criticreview.Description;
@@ -179,6 +171,7 @@ namespace MoviesAdmin.Controllers
             }
 
             var criticreview = await _context.CriticReview
+                .Include(m => m.Movie)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (criticreview == null || !CanModify(criticreview))
             {
@@ -194,11 +187,12 @@ namespace MoviesAdmin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var criticreview = await _context.CriticReview.FindAsync(id);
-            if (criticreview != null)
+            if (criticreview == null || !CanModify(criticreview))
             {
-                _context.CriticReview.Remove(criticreview);
+                return NotFound();
             }
 
+            _context.CriticReview.Remove(criticreview);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

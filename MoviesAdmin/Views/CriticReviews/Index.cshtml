@@ -59,16 +59,23 @@
                         {
                             <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-primary">Delete</a>
                         }
-                    }
-                    @if (User.IsInRole("admin"))
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-secondary">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-primary">Delete</a>
-                    }
+                        }
+                        else if (User.IsInRole("admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-secondary">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-primary">Delete</a>
+                        } else
+                        {
+                            
+                        }
+
                 </div>
             </td>
         </tr>
     }
     </tbody>
 </table>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create Review</a>
+</p>

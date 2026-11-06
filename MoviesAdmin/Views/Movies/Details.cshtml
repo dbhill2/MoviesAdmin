@@ -102,7 +102,7 @@
     }
     @if (User.IsInRole("critic"))
     {
-        <a asp-controller="CriticReviews" asp-action="Create" asp-route-movieId="" class="btn btn-primary">Create Review</a>
+        <a asp-controller="CriticReviews" asp-action="Create" asp-route-movieId="@Model.ID" class="btn btn-primary">Create Review</a>
     }
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

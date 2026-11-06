@@ -21,7 +21,7 @@ public class MoviesController : Controller
     }
 
     // GET: MOVIES
-    public async Task<IActionResult> Index(int page = 1)
+    public async Task<IActionResult> Index(string? searchString,int page = 1)
     {
 
         // Log the currently logged in user
@@ -33,7 +33,15 @@ public class MoviesController : Controller
 
         int pageSize = 3;//sets table limit for movies per page
 
-        var movies = await _context.Movie
+        var query = _context.Movie.AsQueryable(); // search function for movie titles
+
+        //Validate the string
+        if (!string.IsNullOrWhiteSpace(searchString))
+        {
+            query = query.Where(m => m.Title.Contains(searchString));
+        }
+
+        var movies = await query
             .Include(m => m.Genre)
             .Include(m => m.AudienceRating)
             .Include(m => m.CriticReview)
@@ -42,11 +50,12 @@ public class MoviesController : Controller
             .Take(pageSize)//displays the correct amount of movies at the correct starting point
             .ToListAsync();//gets all movies in DB
 
-        int totalMovies = await _context.Movie.CountAsync();//stores the value of all movie DB entries
+        int totalMovies = await query.CountAsync();//stores the value of all movie DB entries
         int totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);//Calculates how many needed pages
 
         ViewBag.Page = page;
         ViewBag.TotalPages = totalPages;//used for pagination in the view
+        ViewBag.CurrentFilter = searchString;//shows only the currently searched movie
 
         return View(movies);//sends the paged movie list to the Razor view
     }
@@ -73,6 +82,7 @@ public class MoviesController : Controller
     }
 
     // GET: MOVIES/Create
+    [Authorize(Roles = "admin")]
     public IActionResult Create()
     {
         var genres = _context.Genre.ToList();
@@ -87,6 +97,7 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> Create(
     [Bind("ID,GenreID,AudienceRatingID,CriticReviewID,Title,Synopsis,RunTime,ReleaseDate,NowPlaying")] Movie movie,
     IFormFile ImageFile)
@@ -111,6 +122,7 @@ public class MoviesController : Controller
     }
 
     // GET: MOVIES/Edit/5
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -134,6 +146,7 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> Edit(int? id, [Bind("ID,GenreID,AudienceRatingID,CriticReviewID,Title,Synopsis,RunTime,ReleaseDate,NowPlaying")] Movie movie, IFormFile? ImageFile)
     {
         if (id != movie.ID)
@@ -141,20 +154,22 @@ public class MoviesController : Controller
             return NotFound();
         }
 
-        var existingMovie = await _context.Movie.FindAsync(id);
+        var existingMovie = await _context.Movie.FindAsync(id); //track the existing movie entry
 
         if (existingMovie == null) { 
             return NotFound();
         }
 
+        //set all fields of the tracked movie with the new input values
         existingMovie.Title = movie.Title;
         existingMovie.Synopsis = movie.Synopsis;
-        existingMovie.Genre = movie.Genre;
-        existingMovie.AudienceRating = movie.AudienceRating;
+        existingMovie.GenreID = movie.GenreID;
+        existingMovie.AudienceRatingID = movie.AudienceRatingID;
         existingMovie.RunTime = movie.RunTime;
         existingMovie.ReleaseDate = movie.ReleaseDate;
         existingMovie.NowPlaying = movie.NowPlaying;
 
+        //Validation for the image file. Protects the old image from being nulled if nothing is selected.
         if (ModelState.IsValid)
         {
             try
@@ -185,10 +200,14 @@ public class MoviesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
+        //repopulate drop downs
+        ViewBag.GenreID = new SelectList(_context.Genre.ToList(), "ID", "Title");
+        ViewBag.AudienceRatingID = new SelectList(_context.AudienceRating.ToList(), "ID", "Title");
         return View(movie);
     }
 
     // GET: MOVIES/Delete/5
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -209,6 +228,7 @@ public class MoviesController : Controller
     // POST: MOVIES/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
         var movie = await _context.Movie.FindAsync(id);
