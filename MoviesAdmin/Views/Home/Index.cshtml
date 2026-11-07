@@ -2,11 +2,24 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="text-center">
+    <h4>Welcome to SilverScreen Marquee's admin website.</h4>
     <img src="~/images/SilverScreenLogo.png" class="logo" alt="Logo Image" />
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+<div class="text-center">
+    <p>Browse and create movies and reviews.</p>
+    <h5>*IMPORTANT*</h5>
+    <p>Critics remember that once a review is checked published, it is FINAL.</p>
+    <p>If the review was made in error, please contact our admin team at admin@silverscreen.ca</p>
+</div>
+<hr/>
+<div class="mb-3 text-center">
+    @if (User.Identity.IsAuthenticated)
+    {        
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-secondary">Logout</a>        
+    }
+    else
+    {        
+        <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login</a>        
+    }
+</div>

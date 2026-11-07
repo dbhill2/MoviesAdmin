@@ -35,7 +35,7 @@ namespace MoviesAdmin.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("AudienceRating", (string)null);
+                    b.ToTable("AudienceRating");
                 });
 
             modelBuilder.Entity("MoviesAdmin.Models.CriticReview", b =>
@@ -55,7 +55,8 @@ namespace MoviesAdmin.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
@@ -70,7 +71,7 @@ namespace MoviesAdmin.Migrations
 
                     b.HasIndex("MovieID");
 
-                    b.ToTable("CriticReview", (string)null);
+                    b.ToTable("CriticReview");
                 });
 
             modelBuilder.Entity("MoviesAdmin.Models.Genre", b =>
@@ -87,7 +88,7 @@ namespace MoviesAdmin.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Genre", (string)null);
+                    b.ToTable("Genre");
                 });
 
             modelBuilder.Entity("MoviesAdmin.Models.Movie", b =>
@@ -133,13 +134,13 @@ namespace MoviesAdmin.Migrations
 
                     b.HasIndex("GenreID");
 
-                    b.ToTable("Movie", (string)null);
+                    b.ToTable("Movie");
                 });
 
             modelBuilder.Entity("MoviesAdmin.Models.CriticReview", b =>
                 {
                     b.HasOne("MoviesAdmin.Models.Movie", "Movie")
-                        .WithMany("CriticReviews")
+                        .WithMany("CriticReview")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -178,7 +179,7 @@ namespace MoviesAdmin.Migrations
 
             modelBuilder.Entity("MoviesAdmin.Models.Movie", b =>
                 {
-                    b.Navigation("CriticReviews");
+                    b.Navigation("CriticReview");
                 });
 #pragma warning restore 612, 618
         }

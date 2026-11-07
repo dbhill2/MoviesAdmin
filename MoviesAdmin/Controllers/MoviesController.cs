@@ -118,6 +118,10 @@ public class MoviesController : Controller
 
             return RedirectToAction(nameof(Index));
         }
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreID = new SelectList(genres, "ID", "Title");
+        var audienceRatings = _context.AudienceRating.ToList();
+        ViewBag.AudienceRatingID = new SelectList(audienceRatings, "ID", "Title");
         return View(movie);
     }
 
